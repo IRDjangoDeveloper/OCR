@@ -128,7 +128,7 @@ STATICFILES_DIRS = [
     BASE_DIR / "assets",
 ]
 
-STATIC_ROOT = "static_cdn/static_root"
+STATIC_ROOT = "staticfiles"
 
 MEDIA_URL = '/media/'
 
