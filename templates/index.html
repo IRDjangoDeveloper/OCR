@@ -1,0 +1,131 @@
+{% extends 'base/home_layout.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+        {% block header %}
+            <link href="{% static 'fontawesome/css/all.css' %}" rel="stylesheet">
+        {% endblock %}
+    <div class="main">
+        <div class="col-md-12 home-style" style="background: url('{% static 'img/sitebg.png' %}');">
+            <br>
+        <div class="container form-site">
+            <div class="row">
+                <div class="col-md-6">
+                    <form action='{% url 'form' %}' method="post" id="myform" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <label>انتخاب زبان(الزامی)</label>
+                        {{ form.lang }}
+                        <br>
+                        <label>تصویر:</label>
+                        {{ form.img|attr:"class:form-control"|attr:"id:imgid"|attr:'onchange:readURL(this);' }}
+                        <small class="form-text"style="color: white !important;">متن استخراجی از تصاویری با پس زمینه روشن دقیق تر خواهد بود.</small>
+                        <br>
+                        <button class="btn btn-info" id="extract"><i class="fa fa-eye" aria-hidden="true"></i> آنالیز</button>
+                        <hr>
+
+                    </form>
+                    <div id="images" class="overflow-auto" style="display: none">
+                        <img id="blah" src="#"/>
+                        <button id="rotait" class="btn btn-success"><i class="fa fa-retweet" aria-hidden="true"></i> مقایسه</button>
+                    </div>
+                    <button id="showform" style="display:none;" class="btn btn-success"><i class="fa fa-indent" aria-hidden="true"></i> ادامه</button>
+
+                </div>
+                <div class="col-md-6">
+                      <div class="form-group">
+                          <dev id="msg"></dev>
+                    </label>
+                              <div id="actions">
+                                  <button id="copybtn"><i class="fas fa-copy"></i></button>
+                              </div>
+                              <textarea name="" id="fma" cols="30" rows="10"></textarea>
+                      </div>
+                </div>
+            </div>
+                </div>
+            <div class="col-md-12 help-div">
+            <div class="container">
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="step">
+                      <span class="number">01</span>
+                      <h4>انتخاب زبان</h4>
+                      <span>ابتدا زبان استفاده شده در متن موجود در تصویر را انتخاب کنید.</span>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="step">
+                      <span class="number">02</span>
+                      <h4>انتخاب تصویر</h4>
+                      <span>تصویری که قصد استخراج متون روی آن را دارید از سیستم خود انتخاب کنید.</span>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="step">
+                      <span class="number">03</span>
+                      <h4>استخراج</h4>
+                      <span>با کلیک بر روی گزینه استخراج، فرایند استخراج متن آغاز خواهد شد!</span>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+            </div>
+        </div>
+    <br>
+    <hr>
+    <br>
+    </div>
+{% block js %}
+    <script src="{% static 'js/ajax.js' %}"></script>
+    <script type="text/javascript">
+        function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#blah')
+                    .attr('src', e.target.result)
+                    .width('250')
+                    .height('100');
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#extract").click(function() {
+                $('#images').show()
+                $('#rotait').show()
+			});
+
+			$("#rotait").click(function() {
+				$('#myform').hide()
+                $('#rotait').hide()
+                $('#showform').show()
+				$('#blah')
+                    .width('')
+                    .height('')
+
+			});
+			$("#showform").click(function() {
+                $('#myform').show()
+                $('#showform').hide()
+                $('#images').hide()
+                $('.alert').hide()
+                $('#imgid').val('')
+            });
+
+		});</script>
+    <script type="text/javascript">
+        document.getElementById('copybtn').addEventListener('click', function() {
+          var text = document.getElementById('fma');
+          text.select();
+          document.execCommand('copy');
+        })
+    </script>
+        {% endblock %}
+    {% endblock %}
