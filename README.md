@@ -17,7 +17,7 @@ step 4: active venv:
 source mypython/bin/activate
 
 step 5: migrate models:
-python manage.py makemigrations
+python manage.py makemigrations |
 python manage.py migrate
 
 last step: run project:
