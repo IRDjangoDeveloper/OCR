@@ -1,5 +1,5 @@
 # OCR
-Optical character recognition with django framwork
+Optical character recognition with django framework
 
 install project
 
